@@ -1,34 +1,13 @@
-[push]
-    default = upstream
 [color]
     diff = auto
     status = auto
     branch = auto
-[alias]
-    br = branch --all
-    ci = commit
-    co = checkout
-    dh = diff HEAD
-    lg = log --graph --pretty=format:'%Cred%h..%Creset - %s %Cgreen(%cr)%Creset - %an' --abbrev-commit --date=relative
-    lgn = log --pretty=oneline --abbrev-commit --show-notes=*
-    rh = reset --soft HEAD^
-    st = status
 [merge]
-	tool = fugitive
+    tool = fugitive
+    conflictstyle = diff3
 [rerere]
     enabled = true
 [core]
     editor = vim
-	excludesfile = ~/.gitignore_global
-[giggle]
-	main-window-maximized = true
-	main-window-geometry = 0x0+0+0
-	history-view-vpane-position = 374
-	main-window-view = HistoryView
-[user]
-	name = Martin Brochhaus
-	email = mbrochh@gmail.com
-[http]
-	sslverify = false
 [mergetool "fugitive"]
-	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
+    cmd = vim -f -c \"Gdiff\" \"$MERGED\"
