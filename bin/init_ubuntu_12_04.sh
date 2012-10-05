@@ -81,6 +81,8 @@ make && make install
 mkdir -p $HOME/bin
 cd $HOME/bin
 ln -s $HOME/opt/vim/bin/vim
+cd $HOME
+rm -r -f vim
 
 # Install Google's Protocol Buffers
 sudo apt-get install libprotobuf-dev protobuf-compiler python-protobuf 
