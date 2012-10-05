@@ -90,7 +90,7 @@ sudo apt-get install mongodb python-pymongo # mongodb-server
 
 # Install Boost v1.48
 #sudo apt-get install libboost-dev # usually this installs v1.46
-sudo apt-get remove libboost1.46* # just in case
+sudo apt-get remove libboost1.46-all-dev # just in case
 sudo apt-get install libboost1.48-all-dev
 sudo apt-get install libboost-python-dev 
 
