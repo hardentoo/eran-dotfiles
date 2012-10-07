@@ -3,19 +3,19 @@ cd $HOME
 mkdir bin
 mkdir opt
 
-# Essentials (source control) 
-sudo apt-get install git-core git-gui git-doc git-flow mercurial 
+# Essentials (source control)
+sudo apt-get install git-core git-gui git-doc git-flow mercurial
 
 # Development (IDE)
 sudo apt-get install spyder
 
 # Development (Math)
-sudo apt-get install octave3.2 
+sudo apt-get install octave3.2
 sudo apt-get install r-base rkward
 sudo apt-get install gsl-bin
 
 # Development (general)
-sudo apt-get install gcc colorgcc autoconf 
+sudo apt-get install gcc colorgcc autoconf
 sudo apt-get install cmake
 sudo apt-get install scons
 
@@ -40,11 +40,11 @@ sudo apt-get install screen tmux
 
 # VIM
 sudo apt-get install vim # system availability - we will use our own compiled version in $(HOME)/bin
-sudo apt-get install ctags
- 
+sudo apt-get install ctags xclip
+
 # Python related
 sudo apt-get install ipython python-scipy python-numpy python-matplotlib python-gnuplot
-sudo apt-get install python-nose python-coverage 
+sudo apt-get install python-nose python-coverage
 sudo apt-get install python-setuptools
 sudo apt-get install python-pip
 sudo easy_install rednose
@@ -85,7 +85,7 @@ cd $HOME
 rm -r -f vim
 
 # Install Google's Protocol Buffers
-sudo apt-get install libprotobuf-dev protobuf-compiler python-protobuf 
+sudo apt-get install libprotobuf-dev protobuf-compiler python-protobuf
 
 # Install MongoDB (and related python modules)
 sudo apt-get install mongodb python-pymongo # mongodb-server
@@ -94,7 +94,7 @@ sudo apt-get install mongodb python-pymongo # mongodb-server
 #sudo apt-get install libboost-dev # usually this installs v1.46
 sudo apt-get remove libboost1.46-all-dev # just in case
 sudo apt-get install libboost1.48-all-dev
-sudo apt-get install libboost-python-dev 
+sudo apt-get install libboost-python-dev
 
 # Needed?
 #sudo apt-get install libpcre3 libpcre3-dev # unknown
