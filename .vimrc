@@ -11,14 +11,6 @@ filetype indent on
 set fileformats=unix,dos
 
 syntax on
-"autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-
-"let g:html_indent_inctags = "html,body,head,tbody"
-"let g:html_indent_script1 = "inc"
-"let g:html_indent_style1 = "inc"
-
 
 " General option
 " ===============
@@ -47,9 +39,10 @@ map <C-W> :tabclose<cr>
 
 " CTRL-Up/Down to move to the next/previous tab
 nnoremap <C-Up> :tabprevious<CR>
-nnoremap <C-Down> :tabnext<CR>
 inoremap <C-Up> <Esc>:tabprevious<CR>i
+nnoremap <C-Down> :tabnext<CR>
 inoremap <C-Down> <Esc>:tabnext<CR>i
+
 
 " CTRL+X/C/V to cut/copy/paste (also shift-del, ctrl-insert, shift-insert)
 vnoremap <C-X> "+x
@@ -132,8 +125,11 @@ set incsearch " search as you type
 set ignorecase " Ignore case when searching
 set smartcase " Ignore ignorecase if the search contains uppercase characters
 
+" spell-checking toggle with <leader>ss
+map <leader>ss :setlocal spell!<cr>
+
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> / 
+map <space> /
 map <c-space> ?
 
 " Disable highlight when <leader><cr> is pressed
@@ -156,12 +152,17 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 vmap Q gq
 nmap Q gqap
 
-" check these:
-" set lazyredraw
-" set magic " for regular expressions
-" set showmatch
-" set matchtime=2
+set lazyredraw
+set magic " for regular expressions
+set showmatch " briefly jump to a matching bracket
+set matchtime=2
 " set foldcolumn=1
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
 
 " Settings for python-mode
 " =========================
@@ -229,3 +230,8 @@ color wombat256mod
 
 set colorcolumn=80
 highlight ColorColumn ctermbg=233
+
+" NERDTree Plugin
+" ===============
+map <leader>nn :NERDTreeToggle<cr>
+map <leader>nf :NERDTreeFind<cr>
