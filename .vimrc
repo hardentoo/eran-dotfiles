@@ -235,3 +235,12 @@ highlight ColorColumn ctermbg=233
 " ===============
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nf :NERDTreeFind<cr>
+
+" Git shortcuts
+" =============
+map <leader>gb :Git branch -v -a --color<cr>
+map <leader>gf :Git fetch --all<cr>
+map <leader>gs :Git status<cr>
+map <leader>gl :Git log --graph --decorate --color --oneline --abbrev-commit --date-order<cr>
+map <leader>gla :Git log --graph --decorate --color --oneline --abbrev-commit --date-order --all<cr>
+
