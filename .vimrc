@@ -10,8 +10,23 @@ call pathogen#helptags()
 filetype plugin on
 filetype indent on
 
-" Use unix as the standard file type
-set fileformats=unix,dos
+" enable omni-complete
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType c set omnifunc=ccomplete#Complete
+autocmd FileType cpp set omnifunc=omni#cpp#complete#Main
+"in case there is a problem with cpp, replace with:
+"au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
+
+
+" enable syntax-based OmniComplete (on filetypes that do not
+" already have omni complete registered functions)
+autocmd Filetype *
+            \   if &omnifunc == "" |
+            \       setlocal omnifunc=syntaxcomplete#Complete |
+            \   endif
 
 syntax on
 
@@ -69,14 +84,12 @@ exe 'vnoremap <script> <C-V>' paste#paste_cmd['v']
 imap <S-Insert>       <C-V>
 vmap <S-Insert>       <C-V>
 
-" Use CTRL-Q to do what CTRL-V used to do
-noremap <C-Q>     <C-V>
 
 " make yank copy to the global system clipboard
 set clipboard=unnamed
 
 " Improving code completion
-set completeopt=longest,menuone
+set completeopt=longest,menuone,preview
 
 " autocomplete parenthesis
 inoremap {<CR> {<CR>}<Esc>O
