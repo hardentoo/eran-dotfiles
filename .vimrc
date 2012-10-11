@@ -228,20 +228,33 @@ imap <C-v> <Esc><C-v>a
 " =========================
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 au InsertLeave * match ExtraWhitespace /\s\+$/
-map <Leader>w :%s/\s\+$//
+
+" remove all end-of-line whitespaces
+map <Leader>w :%s/\s\+$//<cr>
+
+" replace all tabs with spaced
+map <leader><tab> :retab<cr>
+
 
 " Color scheme
 " =============
 set t_Co=256
 color wombat256mod
 
-set colorcolumn=80
-highlight ColorColumn ctermbg=233
+set colorcolumn=101
+highlight ColorColumn ctermbg=235
 
 " NERDTree Plugin
 " ===============
+let NERDTreeShowHidden=1
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nf :NERDTreeFind<cr>
+map <silent> <F12> :NERDTreeToggle<cr>
+map <silent> <S-F12> :NERDTreeFind<cr>
+" starts nerdtree if no files specified when vim opened (disabled)
+"autocmd vimenter * if !argc() | NERDTree | endif
+" closes vim if the only buffer left is nerdtree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Git shortcuts
 " =============
