@@ -1,9 +1,12 @@
 set nocompatible " Use vim settings, rather than Vi settings
 set encoding=utf-8 " set utd-8 as the internal vim encoding
 autocmd! bufwritepost .vimrc source % " reload .vimrc if it changes
-call pathogen#infect()
-
 filetype off
+
+" Pathogen load
+call pathogen#infect()
+call pathogen#helptags()
+
 filetype plugin on
 filetype indent on
 
@@ -11,6 +14,9 @@ filetype indent on
 set fileformats=unix,dos
 
 syntax on
+
+" Use unix as the standard file type
+set fileformats=unix,dos
 
 " General option
 " ===============
@@ -33,9 +39,8 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" CTRL+T/CTRL+W to open/close new tabs
+" CTRL+T to open new tabs
 map <C-T> :tabnew<cr>
-map <C-W> :tabclose<cr>
 
 " CTRL-Up/Down to move to the next/previous tab
 nnoremap <C-Up> :tabprevious<CR>
@@ -53,6 +58,7 @@ map <C-V> "+gP
 map <S-Insert> "+gP
 cmap <C-V> <C-R>+
 cmap <S-Insert> <C-R>+
+noremap <C-Q> <C-V> " Use CTRL-Q to do what CTRL-V used to do
 
 " Pasting blockwise and linewise selections is not possible in Insert and
 " Visual mode without the +virtualedit feature.  They are pasted as if they
@@ -91,21 +97,15 @@ endfunction
 inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
 inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 
-" Quicksave command
-noremap <C-s> :update<CR>
-vnoremap <C-s> <C-C>:update<CR>
-inoremap <C-s> <C-O>:update<CR>
-
+" Quick save command
+noremap <silent><leader>s :update<CR>
+vnoremap <silent><leader>s <C>:update<CR>
+inoremap <silent><leader>s <C-O>:update<CR>
 
 " Quick quit command
-noremap <Leader>e :quit<CR>
-
-
-" Bind nohl
-noremap <C-n> :nohl<CR>
-vnoremap <C-n> :nohl<CR>
-inoremap <C-n> :nohl<CR>
-
+noremap <leader>q :quit<CR>
+vnoremap <silent><leader>q <C>:quit<CR>
+inoremap <silent><leader>q <C-O>:quit<CR>
 
 set history=700
 set undolevels=700
@@ -128,14 +128,9 @@ set smartcase " Ignore ignorecase if the search contains uppercase characters
 " spell-checking toggle with <leader>ss
 map <leader>ss :setlocal spell!<cr>
 
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-map <c-space> ?
-
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
 
-set nowrap " don't automatically wrap on load
 set tw=79  " width of document (used by gd)
 set fo-=t  " don't automatically wrap text when typing
 set number " show line numbers
@@ -188,7 +183,6 @@ set laststatus=2
 " ==========================
 set nofoldenable
 
-
 " Settings for ctrlp
 " ===================
 let g:ctrlp_max_height = 30
@@ -196,13 +190,26 @@ let g:ctrlp_max_height = 30
 " Movement
 " =========
 " bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
-map <c-h> <c-w>h
+noremap <silent> <c-j> <c-w>j
+noremap <silent> <c-k> <c-w>k
+noremap <silent> <c-l> <c-w>l
+noremap <silent> <c-h> <c-w>h
 
+" bind Ctrl+<right> / c+<left> for moving next and previous windows respectively
+noremap <silent> <c-right> <c-w><c-w>
+noremap <silent> <c-left> <c-w><s-w>
+
+" bind Shift+special keys to resize windows
+noremap <silent> + <c-w>+
+noremap <silent> _ <c-w>-
+noremap <silent> < <c-w><
+noremap <silent> > <c-w>>
+
+" shortcuts to move between tabs
 map <Leader>n <esc>:tabprevious<CR>
 map <Leader>m <esc>:tabnext<CR>
+
+" shortcut to sort selected text
 vnoremap <Leader>s :sort<CR>
 
 " Custom mappings
