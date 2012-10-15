@@ -24,8 +24,8 @@ set shiftround
 set expandtab " Use spaces instead of tabs
 set smarttab " smarter tabs
 
-" maximum width of inserted text
-" set textwidth = 120 " 80 is too small for modern displays
+" maximum width of inserted text (80 is too small for modern displays)
+set textwidth=100
 
 " highlight group for wrong whitespace, must appear before the colorscheme
 autocmd ColorScheme * highlight BadWhitespace ctermbg=red guibg=red
@@ -71,10 +71,12 @@ set mouse=a " enable mouse support
 set bs=indent,eol,start " make backspace behave like normal again
 set lazyredraw " do not refresh screen while executing macros
 set scrolloff=4 " always show 4 lines at the edge when moving the cursor
+set sidescrolloff=7 " always show 7 columns at the edge when moving the cursor
+set sidescroll=1 " for fast terminals
 set magic " for regular expressions
 set clipboard=unnamed " make yank copy to the global system clipboard (works?)
-set completeopt=longest,menuone,preview " Improving code completion
-set splitbelow " split windows at the bottom (e.g, help and omnicomplete preview windows)
+set completeopt=longest,menuone " Improving code completion
+set splitbelow " split windows at the bottom (e.g, help)
 
 " tags
 set tags+=./tags
@@ -94,6 +96,15 @@ set formatoptions+=j " when joining lines, smartly join their comments leader
 " highlight bad whitespace matching rules (when leaving insert mode)
 autocmd InsertLeave * match BadWhitespace /\t\|\s\+$/
 
+" ignore these files in the wildmenu
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=*/coverage/*
+set wildignore+=*~
+set wildignore+=*.obj
+set wildignore+=*.o
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+
 " enable omni-complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
@@ -103,12 +114,13 @@ autocmd Filetype *
             \   if &omnifunc == "" |
             \       setlocal omnifunc=syntaxcomplete#Complete |
             \   endif
-" c/cpp/python will be handled by better complete functions
-"autocmd FileType python set omnifunc=pythoncomplete#Complete
-"autocmd FileType c set omnifunc=ccomplete#Complete
-"autocmd FileType cpp set omnifunc=omni#cpp#complete#Main
-"in case there is a problem with cpp, replace with:
-"au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
+"Python is handled by python-mode. Alternative:
+" autocmd FileType python set omnifunc=pythoncomplete#Complete
+"C/C++ is handled by clang-complete. Alternative:
+" autocmd FileType c set omnifunc=ccomplete#Complete
+" autocmd FileType cpp set omnifunc=omni#cpp#complete#Main
+" in case there is a problem with cpp, replace with:
+" au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
 
 " Mappings - tabs/windows handling
 " ================================
@@ -139,7 +151,7 @@ noremap <silent> <leader>s <Esc>:update<CR>
 " Quick quit
 noremap <silent> <leader>q <Esc>:quit<CR>
 " Spell-checking toggle
-map <leader>ss :setlocal spell!<cr>
+map <leader>sp :setlocal spell!<cr>
 " Disable highlight with <leader><cr>
 map <silent> <leader><cr> :noh<cr>
 " CWD to the directory of the open buffer
@@ -156,10 +168,13 @@ map <leader><tab> :retab<cr>
 " Git shortcuts (assuming available git aliases)
 map <leader>gf :Git fetch --all<cr>
 map <leader>gb :Git b<cr>
-map <leader>gs :Git s<cr>
+map <leader>gs :Gstatus<cr>
+map <leader>ga :Gwrite<cr>
 map <leader>gl :Git l<cr>
 map <leader>gla :Git la<cr>
 map <leader>gd :Gdiff<cr>
+" Disable formatting when pasting (usually large chunks of code)
+set pastetoggle=<F2>
 
 
 " Extra Features
@@ -188,9 +203,23 @@ endfunction
 inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
 inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 
-" Automatically close the preview window of omnicomplete
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+" Automatically close the preview window of omnicomplete - disabled
+" (preview does not behave nicely)
+"autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+"autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" tmux fix
+if &term =~ '^screen'
+    " tmux will send xterm-style keys when its xterm-keys option is on
+    execute "set <xUp>=\e[1;*A"
+    execute "set <xDown>=\e[1;*B"
+    execute "set <xRight>=\e[1;*C"
+    execute "set <xLeft>=\e[1;*D"
+    map <Esc>OH <Home>
+    map! <Esc>OH <Home>
+    map <Esc>OF <End>
+    map! <Esc>OF <End>
+endif
 
 
 " Plugins Settings
@@ -199,7 +228,7 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " python-mode
 " ===========
 let g:pymode_rope = 1 " enable rope
-let g:pymode_folding = 1 " automatic folding
+let g:pymode_folding = 0 " no automatic folding at startup
 let g:pymode_syntax_all = 1 " highlight all
 let g:pymode_lint_onfly = 1 " on-the-fly code checking
 map <Leader>g :call RopeGotoDefinition()<CR>
@@ -210,11 +239,14 @@ map <Leader>g :call RopeGotoDefinition()<CR>
 " vim-powerline
 " =============
 set laststatus=2 " always show the statusline
+let g:Powerline_symbols = 'unicode'
 
 " ctrlp
 " =====
 let g:ctrlp_max_height = 30
 let g:ctrlp_show_hidden = 1 " also look for hidden files
+let g:ctrlp_open_new_file = 'v' " <C-y> to open in a vertical split
+let g:ctrlp_map = '<c-f>' " <c-p> is reserved for YankRink
 
 " NERDTree
 " ========
@@ -228,15 +260,41 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " starts nerdtree if no files specified when vim opened (disabled)
 "autocmd vimenter * if !argc() | NERDTree | endif
 
+" clang_complete
+" ==============
+let g:clang_complete_auto=1 " automatically complete after ->, ., ::
+let g:clang_complete_copen=0 " open quickfix window on error.
+let g:clang_hl_errors=1 " highlight the warnings and errors the same way clang does it.
+let g:clang_periodic_quickfix=1 " periodically update the quickfix window.
+let g:clang_snippets=1 " do some snippets magic after a ( or a , inside function call. Not currently fully working.
+let g:clang_snippets_engine="clang_complete" " The snippets engine (clang_complete, snipmate, ultisnips... see the snippets subdirectory).
+let g:clang_conceal_snippets=1 " clang_complete will use vim 7.3 conceal feature to hide <# and #> which delimit snippet placeholders.
+let g:clang_close_preview=1 " the preview window will be close automatically after a completion.
+let g:clang_exec="clang" " Name or path of clang executable.
+let g:clang_user_options="" " Add this value at the end of the clang command
+let g:clang_auto_user_options="path, .clang_complete" " use path for include dirs, use .clang_complete for extra settings
+let g:clang_use_library=1 " Use libclang directly
+let g:clang_library_path="/home/eran/opt/clang+llvm-3.1-x86_64-linux-ubuntu_12.04/lib" " The path to libclang.so
+let g:clang_complete_macros=0 " If clang should complete preprocessor macros and constants.
+let g:clang_complete_patterns=0 " If clang should complete code patterns, i.e loop constructs etc.
+" Update and show the quickfix window
+nnoremap <F9> :call g:ClangUpdateQuickFix()<CR>:copen<CR>
 
+" tagbar
+" ======
+let g:tagbar_autoshowtag=1 " unfold as needed to show a tag
+" Open a tagbar window that closes when jumped from
+nmap <F8> :TagbarOpenAutoClose<cr>
+" Open/Close the tagbar window (but leave it open when jumped from)
+nmap <S-F8> :TagbarToggle<cr>
 
-
-
-
-
+" YankRink
+" ========
+map <F3> :YRShow<cr>
+imap <F3> <C-O>:YRShow<cr>
 
 " ======================================================================
-" below: stuff that need to be arranged/checked
+" below: stuff that need to be arranged/checked/deleted
 
 " Windows like copy/paste shortcuts (CTRL+X/C/V, etc.) - disabled
 "vnoremap <C-X> "+x
@@ -249,30 +307,18 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 "cmap <S-Insert> <C-R>+
 "noremap <C-Q> <C-V> " Use CTRL-Q to do what CTRL-V used to do
 
-" wildignore these:
-set wildignore+=*.pyc
-set wildignore+=*_build/*
-set wildignore+=*/coverage/*
-
-" disable formatting when pasting large chunks of code
-set pastetoggle=<F2>
-
 " easier formatting of paragraphs
-vmap Q gq
-nmap Q gqap
-
-
-
+"vmap Q gq
+"nmap Q gqap
 
 " Fixing the copy & paste madness
 " ================================
-vmap <C-y> y:call system("xclip -i -selection clipboard", getreg("\""))<CR>:call system("xclip -i", getreg("\""))<CR>
-nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
-imap <C-v> <Esc><C-v>a
+"vmap <C-y> y:call system("xclip -i -selection clipboard", getreg("\""))<CR>:call system("xclip -i", getreg("\""))<CR>
+"nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
+"imap <C-v> <Esc><C-v>a
 
-
-
-
+" ======================================================================
 " reload .vimrc when it changed
 " because the settings are not reset, I prefer to disable it until I find a better approach
 "autocmd! bufwritepost .vimrc source %
+"

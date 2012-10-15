@@ -4,7 +4,7 @@ mkdir bin
 mkdir opt
 
 # Essentials (source control)
-sudo apt-get install git-core git-gui git-doc git-flow mercurial
+sudo apt-get install git-core git-gui git-doc git-flow mercurial subversion
 
 # Development (IDE)
 sudo apt-get install spyder
@@ -41,6 +41,7 @@ sudo apt-get install screen tmux
 # VIM
 sudo apt-get install vim # system availability - we will use our own compiled version in $(HOME)/bin
 sudo apt-get install ctags xclip
+sudo apt-get install libclang-dev
 
 # Python related
 sudo apt-get install ipython python-scipy python-numpy python-matplotlib python-gnuplot
