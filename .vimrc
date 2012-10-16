@@ -77,6 +77,7 @@ set magic " for regular expressions
 set clipboard=unnamed " make yank copy to the global system clipboard (works?)
 set completeopt=longest,menuone " Improving code completion
 set splitbelow " split windows at the bottom (e.g, help)
+set virtualedit=onemore
 
 " tags
 set tags+=./tags
@@ -159,6 +160,9 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 " Indentation of selected text
 vnoremap < <gv
 vnoremap > >gv
+" Wrapped lines goes down/up to next row, rather than next line in file.
+nnoremap j gj
+nnoremap k gk
 " Select all
 map <leader>a ggVG
 " remove all end-of-line whitespaces
