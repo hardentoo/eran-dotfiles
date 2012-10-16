@@ -4,50 +4,50 @@ mkdir bin
 mkdir opt
 
 # Essentials (source control)
-sudo apt-get install git-core git-gui git-doc git-flow mercurial subversion
+sudo apt-get -y install git-core git-gui git-doc git-flow mercurial subversion
 
 # Development (IDE)
-sudo apt-get install spyder
+sudo apt-get -y install spyder
 
 # Development (Math)
-sudo apt-get install octave3.2
-sudo apt-get install r-base rkward
-sudo apt-get install gsl-bin
+sudo apt-get -y install octave3.2
+sudo apt-get -y install r-base rkward
+sudo apt-get -y install gsl-bin
 
 # Development (general)
-sudo apt-get install gcc colorgcc autoconf
-sudo apt-get install cmake
-sudo apt-get install scons
+sudo apt-get -y install gcc colorgcc autoconf
+sudo apt-get -y install cmake
+sudo apt-get -y install scons
 
 # Development (gcc-4.7)
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get install g++-4.7 c++-4.7
+sudo apt-get -y update
+sudo apt-get -y install g++-4.7 c++-4.7
 
 # Development (debug)
-sudo apt-get install strace ddd valgrind
+sudo apt-get -y install strace ddd valgrind
 
 # Development (other/misc/interesting)
-sudo apt-get install flex bison
-#sudo apt-get install speedcrunch # calculator
+sudo apt-get -y install flex bison
+#sudo apt-get -y install speedcrunch # calculator
 
 # Development (GUIs)
-sudo apt-get install meld graphviz
-#sudo apt-get install dia
+sudo apt-get -y install meld graphviz
+#sudo apt-get -y install dia
 
 # Other
-sudo apt-get install screen tmux
+sudo apt-get -y install screen tmux
 
 # VIM
-sudo apt-get install vim # system availability - we will use our own compiled version in $(HOME)/bin
-sudo apt-get install ctags xclip
-sudo apt-get install libclang-dev
+sudo apt-get -y install vim # system availability - we will use our own compiled version in $(HOME)/bin
+sudo apt-get -y install ctags xclip
+sudo apt-get -y install libclang-dev
 
 # Python related
-sudo apt-get install ipython python-scipy python-numpy python-matplotlib python-gnuplot
-sudo apt-get install python-nose python-coverage
-sudo apt-get install python-setuptools
-sudo apt-get install python-pip
+sudo apt-get -y install ipython python-scipy python-numpy python-matplotlib python-gnuplot
+sudo apt-get -y install python-nose python-coverage
+sudo apt-get -y install python-setuptools
+sudo apt-get -y install python-pip
 sudo easy_install rednose
 sudo pip install interval
 #sudo easy_install virtualenv
@@ -74,7 +74,7 @@ ln -s ../.autojump/bin/autojump j
 cd $HOME
 
 # Install vim
-sudo apt-get build-dep vim
+sudo apt-get -y build-dep vim
 hg clone https://vim.googlecode.com/hg/ vim
 cd vim/src
 ./configure --enable-pythoninterp --with-features=huge --prefix=$HOME/opt/vim
@@ -86,18 +86,18 @@ cd $HOME
 rm -r -f vim
 
 # Install Google's Protocol Buffers
-sudo apt-get install libprotobuf-dev protobuf-compiler python-protobuf
+sudo apt-get -y install libprotobuf-dev protobuf-compiler python-protobuf
 
 # Install MongoDB (and related python modules)
-sudo apt-get install mongodb python-pymongo # mongodb-server
+sudo apt-get -y install mongodb python-pymongo # mongodb-server
 
 # Install Boost v1.48
-#sudo apt-get install libboost-dev # usually this installs v1.46
-sudo apt-get remove libboost1.46-all-dev # just in case
-sudo apt-get install libboost1.48-all-dev
-sudo apt-get install libboost-python-dev
+#sudo apt-get -y install libboost-dev # usually this installs v1.46
+sudo apt-get -y remove libboost1.46-all-dev # just in case
+sudo apt-get -y install libboost1.48-all-dev
+sudo apt-get -y install libboost-python-dev
 
 # Needed?
-#sudo apt-get install libpcre3 libpcre3-dev # unknown
-#sudo apt-get install gtk2-engines-pixbuf # vim related?
+#sudo apt-get -y install libpcre3 libpcre3-dev # unknown
+#sudo apt-get -y install gtk2-engines-pixbuf # vim related?
 
