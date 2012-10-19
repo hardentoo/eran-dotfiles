@@ -40,7 +40,7 @@ sudo apt-get -y install screen tmux
 
 # VIM
 sudo apt-get -y install vim # system availability - we will use our own compiled version in $(HOME)/bin
-sudo apt-get -y install ctags xclip
+sudo apt-get -y install ctags cscope xclip
 sudo apt-get -y install libclang-dev
 
 # Python related
@@ -75,7 +75,7 @@ cd $HOME
 
 # Install vim
 sudo apt-get -y build-dep vim
-hg clone https://vim.googlecode.com/hg/ vim
+hg clone https://code.google.com/p/vim/ vim
 cd vim/src
 ./configure --enable-pythoninterp --with-features=huge --prefix=$HOME/opt/vim
 make && make install
@@ -95,7 +95,7 @@ sudo apt-get -y install mongodb python-pymongo # mongodb-server
 #sudo apt-get -y install libboost-dev # usually this installs v1.46
 sudo apt-get -y remove libboost1.46-all-dev # just in case
 sudo apt-get -y install libboost1.48-all-dev
-sudo apt-get -y install libboost-python-dev
+#sudo apt-get -y install libboost-python-dev
 
 # Needed?
 #sudo apt-get -y install libpcre3 libpcre3-dev # unknown
