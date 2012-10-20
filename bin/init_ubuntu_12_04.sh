@@ -32,7 +32,7 @@ sudo apt-get -y install flex bison
 #sudo apt-get -y install speedcrunch # calculator
 
 # Development (GUIs)
-sudo apt-get -y install meld graphviz
+sudo apt-get -y install meld graphviz tig
 #sudo apt-get -y install dia
 
 # Other
@@ -41,7 +41,7 @@ sudo apt-get -y install screen tmux
 # VIM
 sudo apt-get -y install vim # system availability - we will use our own compiled version in $(HOME)/bin
 sudo apt-get -y install ctags cscope xclip
-sudo apt-get -y install libclang-dev
+#sudo apt-get -y install libclang-dev # we will compile and install clang directly from source
 
 # Python related
 sudo apt-get -y install ipython python-scipy python-numpy python-matplotlib python-gnuplot
