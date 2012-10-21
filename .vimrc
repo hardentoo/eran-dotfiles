@@ -278,7 +278,7 @@ let g:clang_exec="clang" " Name or path of clang executable.
 let g:clang_user_options="" " Add this value at the end of the clang command
 let g:clang_auto_user_options="path, .clang_complete" " use path for include dirs, use .clang_complete for extra settings
 let g:clang_use_library=1 " Use libclang directly
-let g:clang_library_path="/home/eran/opt/clang+llvm-3.1-x86_64-linux-ubuntu_12.04/lib" " The path to libclang.so
+let g:clang_library_path="" " The path to libclang.so
 let g:clang_complete_macros=0 " If clang should complete preprocessor macros and constants.
 let g:clang_complete_patterns=0 " If clang should complete code patterns, i.e loop constructs etc.
 " Update and show the quickfix window
