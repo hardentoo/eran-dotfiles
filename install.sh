@@ -13,7 +13,7 @@ git submodule update
 echo "Installing..."
 BASEPATH=$PWD
 cd ~/
-ln -sf .bash_aliases -t ~/
+ln -sf $BASEPATH/.bash_aliases
 ln -sf $BASEPATH/.bash_exports
 ln -sf $BASEPATH/.bash_profile
 ln -sf $BASEPATH/.tmux.conf
