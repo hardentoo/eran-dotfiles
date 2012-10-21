@@ -16,12 +16,10 @@ cd ~/
 ln -sf .bash_aliases -t ~/
 ln -sf $BASEPATH/.bash_exports
 ln -sf $BASEPATH/.bash_profile
-ln -sf $BASEPATH/.gitconfig
-ln -sf $BASEPATH/.gitignore
-ln -sf $BASEPATH/.gitmodules
 ln -sf $BASEPATH/.tmux.conf
 ln -sf $BASEPATH/.vimrc
 ln -sf $BASEPATH/.vim
+cp $BASEPATH/.gitconfig ~/
 mkdir -p ~/.tmp
 
 echo "Registering your git name/email"
