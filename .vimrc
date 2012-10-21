@@ -7,11 +7,12 @@ set encoding=utf-8
 " Use unix as the standard file type
 set fileformats=unix,dos
 
-" Disable stupid backup and swap files - they trigger too many events
-" for file system watchers
-set nobackup
-set nowritebackup
+" Disable swap files - they trigger too many events for file system watchers
+" Enable backup - better safe than sorry
 set noswapfile
+set backup
+set writebackup
+set backupdir=~/.vim/backup,~/tmp
 
 " use indentation from the previous line
 set autoindent
@@ -81,8 +82,10 @@ set virtualedit=onemore
 
 " tags
 set tags+=./tags
-set tags+=$HOME/.vim/tags/**
-set tags+=$HOME/.vim/tags/python27.ctags
+set tags+=/usr/include/tags
+set tags+=/usr/lib/python2.7/tags
+set tags+=tags; " search for tags in all of the parent folders of the current folder
+set tags+=./tags; " search for tags in all of the parent folders of the current file
 
 " search settings
 set hlsearch " highlight search results
