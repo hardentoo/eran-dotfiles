@@ -8,11 +8,12 @@ set encoding=utf-8
 set fileformats=unix,dos
 
 " Disable swap files - they trigger too many events for file system watchers
-" Enable backup - better safe than sorry
+" Enable backup - better safe than sorry. Rolled every minute.
 set noswapfile
 set backup
 set writebackup
-set backupdir=~/.vim/backup,~/tmp
+set backupdir=~/.tmp,~/tmp,~/.vim/backup
+autocmd BufWritePre * let &backupext = '-' . strftime("(%Y-%m-%d)-{%H:%M}") . '~'
 
 " use indentation from the previous line
 set autoindent

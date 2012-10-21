@@ -22,6 +22,7 @@ ln -sf $BASEPATH/.gitmodules
 ln -sf $BASEPATH/.tmux.conf
 ln -sf $BASEPATH/.vimrc
 ln -sf $BASEPATH/.vim
+mkdir -p ~/.tmp
 
 echo "Registering your git name/email"
 echo -n "[Git] Enter your name: "
