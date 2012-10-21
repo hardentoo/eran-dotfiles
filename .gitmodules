@@ -19,6 +19,6 @@
 [submodule ".vim/bundle/tagbar"]
 	path = .vim/bundle/tagbar
 	url = git://github.com/majutsushi/tagbar
-[submodule ".vim/bundle/YankRink"]
-	path = .vim/bundle/YankRink
+[submodule ".vim/bundle/YankRing"]
+	path = .vim/bundle/YankRing
 	url = git://github.com/vim-scripts/YankRing.vim.git
