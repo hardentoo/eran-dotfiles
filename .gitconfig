@@ -25,6 +25,3 @@
     s = status
     ds = diff --stat
     co = checkout
-[user]
-	email = eran
-	name = eran@incitat.com
