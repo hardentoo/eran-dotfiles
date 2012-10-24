@@ -108,7 +108,7 @@ set wildignore+=*/coverage/*
 set wildignore+=*~
 set wildignore+=*.obj
 set wildignore+=*.o
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+"set wildignore+=*/.git/*,*/.hg/*,*/.svn/* - fugitive fails with Gdiff when enabled
 
 " enable omni-complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
@@ -170,7 +170,7 @@ nnoremap k gk
 " Select all
 map <leader>a ggVG
 " remove all end-of-line whitespaces
-map <leader>w :%s/\s\+$//<cr>
+map <silent> <leader>w :%s/\s\+$//<cr>
 " replace all tabs with spaces
 map <leader><tab> :retab<cr>
 " Git shortcuts (assuming available git aliases)
@@ -273,7 +273,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 let g:clang_complete_auto=1 " automatically complete after ->, ., ::
 let g:clang_complete_copen=0 " open quickfix window on error.
 let g:clang_hl_errors=1 " highlight the warnings and errors the same way clang does it.
-let g:clang_periodic_quickfix=1 " periodically update the quickfix window.
+let g:clang_periodic_quickfix=0 " periodically update the quickfix window. - disabled (clears the make output)
 let g:clang_snippets=1 " do some snippets magic after a ( or a , inside function call. Not currently fully working.
 let g:clang_snippets_engine="clang_complete" " The snippets engine (clang_complete, snipmate, ultisnips... see the snippets subdirectory).
 let g:clang_conceal_snippets=1 " clang_complete will use vim 7.3 conceal feature to hide <# and #> which delimit snippet placeholders.

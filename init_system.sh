@@ -16,7 +16,7 @@ sudo apt-get -y install gsl-bin
 
 # Development (general)
 sudo apt-get -y install gcc colorgcc autoconf
-sudo apt-get -y install cmake
+#sudo apt-get -y install cmake - we will install directly from source
 sudo apt-get -y install scons
 
 # Development (gcc-4.7)
@@ -39,8 +39,9 @@ sudo apt-get -y install meld graphviz tig
 sudo apt-get -y install screen tmux
 
 # VIM
+sudo apt-get -y build-dep vim
 sudo apt-get -y install vim # system availability - we will use our own compiled version in $(HOME)/bin
-sudo apt-get -y install ctags cscope xclip
+sudo apt-get -y install exuberant-ctags cscope xclip
 #sudo apt-get -y install libclang-dev # we will compile and install clang directly from source
 
 # Python related
@@ -64,6 +65,16 @@ sudo pip install interval
 #sudo pip install ipdb
 sudo pip install watchdog
 
+# install CMake 2.8.9
+cd /tmp
+wget http://www.cmake.org/files/v2.8/cmake-2.8.9.tar.gz
+tar -xzf cmake-2.8.9.tar.gz
+cd cmake-2.8.9
+./configure
+make
+sudo make install
+cd $HOME
+
 # Install autojump
 cd $HOME/opt
 git clone git://github.com/joelthelion/autojump.git
@@ -74,14 +85,10 @@ ln -s ../.autojump/bin/autojump j
 cd $HOME
 
 # Install vim
-sudo apt-get -y build-dep vim
 hg clone https://code.google.com/p/vim/ vim
 cd vim/src
 ./configure --enable-pythoninterp --with-features=huge --prefix=$HOME/opt/vim
 make && make install
-mkdir -p $HOME/bin
-cd $HOME/bin
-ln -s $HOME/opt/vim/bin/vim
 cd $HOME
 rm -r -f vim
 
