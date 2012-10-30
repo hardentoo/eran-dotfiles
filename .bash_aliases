@@ -14,5 +14,5 @@ alias w="cd ~/work"
 alias c="clear"
 alias v="vim"
 alias tm="tmuxgo.sh"
-alias mj='make -j50 -l90'
+alias mj='make -j 10 -l 80'
 alias g='git'

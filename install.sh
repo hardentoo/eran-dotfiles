@@ -11,12 +11,23 @@ echo "Updating submodules..."
 git submodule init
 git submodule update
 
+echo "Backing current files..."
+mkdir ~/dot-backups
+cp ~/.bash_aliases ~/dot-backups
+cp ~/.bash_exports ~/dot-backups
+cp ~/.bash_profile ~/dot-backups
+cp ~/.bashrc ~/dot-backups
+cp ~/.tmux.conf ~/dot-backups
+cp ~/.vimrc ~/dot-backups
+cp ~/.gitconfig ~/dot-backups
+
 echo "Installing..."
 BASEPATH=$PWD
 cd ~/
 ln -sf $BASEPATH/.bash_aliases
 ln -sf $BASEPATH/.bash_exports
 ln -sf $BASEPATH/.bash_profile
+ln -sf $BASHPATH/.bashrc
 ln -sf $BASEPATH/.tmux.conf
 ln -sf $BASEPATH/.vimrc
 ln -sf $BASEPATH/.vim

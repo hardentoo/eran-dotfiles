@@ -36,7 +36,7 @@ sudo apt-get -y install meld graphviz tig
 #sudo apt-get -y install dia
 
 # Other
-sudo apt-get -y install screen tmux
+sudo apt-get -y install screen tmux mc # screen multiplexeres & midnight-commander
 
 # VIM
 sudo apt-get -y build-dep vim
