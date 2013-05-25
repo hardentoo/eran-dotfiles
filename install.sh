@@ -25,15 +25,14 @@ cp ~/.gitconfig ~/dot-backups
 echo "Installing..."
 BASEPATH=$PWD
 cd ~/
-ln -sf $BASEPATH/.bash_aliases
-ln -sf $BASEPATH/.bash_exports
-ln -sf $BASEPATH/.bash_profile
-ln -sf $BASHPATH/.bashrc
-ln -sf $BASEPATH/.tmux.conf
-ln -sf $BASEPATH/.vimrc
-ln -sf $BASEPATH/.vim
+ln -bsf $BASEPATH/.bash_aliases
+ln -bsf $BASEPATH/.bash_exports
+ln -bsf $BASEPATH/.bash_profile
+ln -bsf $BASHPATH/.bashrc
+ln -bsf $BASEPATH/.tmux.conf
+ln -bsf $BASEPATH/.vimrc
+ln -bsf $BASEPATH/.vim
 cp $BASEPATH/.gitconfig ~/
-mkdir -p ~/.tmp
 
 echo "Registering your git name/email"
 echo -n "[Git] Enter your name: "

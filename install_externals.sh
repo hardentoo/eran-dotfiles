@@ -25,6 +25,7 @@ bash Anaconda-1.5.0-Linux-x86_64.sh -b
 cd $HOME/anaconda/bin
 pip install rednose
 pip install watchdog
+pip install flake8
+pip install jedi
 #pip install interval
 cd $HOME
-

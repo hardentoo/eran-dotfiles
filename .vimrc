@@ -233,16 +233,9 @@ endif
 " Plugins Settings
 " ================
 
-" python-mode
-" ===========
-let g:pymode_rope = 1 " enable rope
-let g:pymode_folding = 0 " no automatic folding at startup
-let g:pymode_syntax_all = 1 " highlight all
-let g:pymode_lint_onfly = 1 " on-the-fly code checking
-map <Leader>g :call RopeGotoDefinition()<CR>
-" Replace pdb with ipdb (i.e, for IPython)
-"let g:pymode_breakpoint = 0
-"map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+" python
+" ======
+map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
 
 " vim-powerline
 " =============
