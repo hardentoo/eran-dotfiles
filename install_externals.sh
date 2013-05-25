@@ -15,7 +15,7 @@ hg clone https://code.google.com/p/vim/ vim
 cd vim/src
 ./configure --enable-pythoninterp --with-features=huge --prefix=$HOME/opt/vim
 make && make install
-cd $HOME
+cd /tmp
 rm -r -f vim
 
 # Install Python (based on Anaconda)
