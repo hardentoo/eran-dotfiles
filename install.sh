@@ -1,7 +1,8 @@
 #!/bin/bash
 
-echo "Remember to run init_system.sh to download, install and configure your system"
-echo "Remember to run install_externals to download and build extrenal projects to your \$HOME/bin"
+echo "Remember to run install_base.sh to install and configure your system"
+echo "Remember to run install_externals.sh to download and build extrenal projects to your \$HOME/bin"
+echo "Remember to run install_desktop.sh to install useful desktop applications"
 echo ""
 echo "Installing files..."
 echo "Warning - this will override your local configuration. Enter to continue."

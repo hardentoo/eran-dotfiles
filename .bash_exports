@@ -2,6 +2,10 @@ if [ -d "$HOME/opt/vim/bin" ] ; then
     PATH="$HOME/opt/vim/bin:$PATH"
 fi
 
+if [ -d "$HOME/anaconda/bin" ] ; then
+    PATH="$HOME/anaconda/bin:$PATH"
+fi
+
 if [[ "$TERM" == "xterm" ]]; then
     export TERM="xterm-256color"
 fi

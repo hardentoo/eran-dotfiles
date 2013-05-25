@@ -7,7 +7,14 @@ https://github.com/mbrochh/vim-as-a-python-ide
 Installation
 ============
 
-Run: /bin/init_ubuntu_12_04.sh
+1) ./install_base.sh
+   Initialize system and installs basic packages
+
+2) ./install_externals.sh
+   Download, build and install external packages
+
+3) ./install_desktop.sh
+   Install useful desktop packages
 
 
 
