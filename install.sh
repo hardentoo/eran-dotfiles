@@ -8,9 +8,9 @@ echo "Installing files..."
 echo "Warning - this will override your local configuration. Enter to continue."
 read temp
 
-echo "Updating submodules..."
-git submodule init
-git submodule update
+#echo "Updating submodules..."
+#git submodule init
+#git submodule update
 
 echo "Backing current files..."
 mkdir ~/dot-backups
