@@ -1,6 +1,77 @@
 " Use vim settings, rather than Vi settings
 set nocompatible
 
+" Vundle plugins install section
+" Install with :PluginInstall
+" =============================
+let has_vundle=1
+if !filereadable(expand("~/.vim/bundle/Vundle.vim/README.md"))
+    echo "Installing Vundle..."
+    silent !mkdir -p ~/.vim/bundle
+    silent !git clone https://github.com/gmarik/Vundle.vim ~/.vim/bundle/Vundle.vim
+    let has_vundle=0
+endif
+
+filetype off " required for Vundle
+set runtimepath+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim' " let Vundle manage itself
+
+" color schemes
+Plugin 'vim-scripts/wombat256.vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'rainux/vim-desert-warm-256'
+Plugin 'nanotech/jellybeans.vim'
+
+" Filesystem
+Plugin 'scrooloose/nerdtree' " filesystem explore (F12)
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'kien/ctrlp.vim' " file/buffer fuzzy finder (Ctrl+F)
+
+" Utilities
+"Plugin 'Townk/vim-autoclose' " autocomplete open-close pairs, e.g: () {} <> []
+"Plugin 'vim-scripts/YankRing.vim' " access to yanked buffer (F3)
+Plugin 'ervandew/supertab' " <Tab> everything!
+"Plugin 'mhinz/vim-startify' " a start screen for vim!
+Plugin 'Lokaltog/vim-easymotion' " Quickly jump to another place (,,w)
+Plugin 'jeetsukumaran/vim-buffergator' " list & navigate buffers (,b)
+
+" Git
+Plugin 'tpope/vim-fugitive' " :G* git commands
+Plugin 'airblade/vim-gitgutter' " show git diff signs in the gutter column
+
+" Visuals
+"Plugin 'powerline/powerline'
+"Plugin 'bling/vim-airline'
+Plugin 'itchyny/lightline.vim' " A light and configurable statusline/tabline
+
+" Code
+Plugin 'scrooloose/syntastic' " syntax checker
+Plugin 'majutsushi/tagbar' " tags window tree (F8) (definitions/function/etc.)
+Plugin 'Valloric/YouCompleteMe' " code completion engine for C-family/Python/etc.
+                                " https://github.com/Valloric/YouCompleteMe#installation
+Plugin 'Valloric/ListToggle' " easily toggle the quickfix and location-list
+"Plugin 'Rip-Rip/clang_complete'
+
+"Plugin 'nvie/vim-flake8'
+"Plugin 'davidhalter/jedi-vim'
+
+" check:
+" Plugin 'ervandew/supertab'
+
+call vundle#end()
+
+" Install plugins for the first time (then quit)
+if has_vundle == 0
+    :silent! PluginInstall
+    echo "Plugins istalled! Restart vim."
+    :qa
+endif
+
+" enable filetype detection features
+filetype plugin indent on
+
 " set utd-8 as the internal vim encoding
 set encoding=utf-8
 
@@ -29,12 +100,23 @@ set smarttab " smarter tabs
 " maximum width of inserted text (80 is too small for modern displays)
 set textwidth=100
 
+" compact gvim UI
+if has("gui_running")
+    set guioptions-=m " remove menubar
+    set guioptions-=T " remove toolbar
+    set guioptions-=r " remove right scrollbar
+    set lines=50
+    set columns=100
+endif
+
 " highlight group for wrong whitespace, must appear before the colorscheme
 autocmd ColorScheme * highlight BadWhitespace ctermbg=red guibg=red
 
 " color scheme
 set t_Co=256
-color wombat256mod
+colorscheme wombat256mod
+"colorscheme jellybeans
+"set background=dark
 syntax on
 
 " color column margin
@@ -46,13 +128,6 @@ set number
 
 " intelligent c-style comments
 set comments=sl:/*,mb:\ *,elx:\ */
-
-" pathogen load
-call pathogen#infect()
-call pathogen#helptags()
-
-" enable filetype detection features
-filetype plugin indent on
 
 " No annoying sound on errors
 set noerrorbells
@@ -78,8 +153,13 @@ set sidescroll=1 " for fast terminals
 set magic " for regular expressions
 set clipboard=unnamed " make yank copy to the global system clipboard (works?)
 set completeopt=longest,menuone " Improving code completion
-set splitbelow " split windows at the bottom (e.g, help)
-set virtualedit=onemore
+set splitbelow " split windows to the bottom (e.g, help)
+set splitright " split windows to the right
+set title " show window title, when possible (e.g, GVIM)
+set ttyfast " improve redrawing smoothness
+set showcmd " show the keys being entered in the status line
+set tildeop " The tilde command ~ behaves like an operator
+set shortmess+=I " disable the startup message of VIM
 
 " tags
 set tags+=./tags
@@ -102,23 +182,23 @@ set formatoptions+=j " when joining lines, smartly join their comments leader
 autocmd InsertLeave * match BadWhitespace /\t\|\s\+$/
 
 " ignore these files in the wildmenu
-set wildignore+=*.pyc
 set wildignore+=*_build/*
 set wildignore+=*/coverage/*
 set wildignore+=*~
-set wildignore+=*.obj
-set wildignore+=*.o
-"set wildignore+=*/.git/*,*/.hg/*,*/.svn/* - fugitive fails with Gdiff when enabled
+set wildignore+=*.a,*.o,*.so,*.obj,*.pyc
+set wildignore+=*.jpg,*.jpeg,*.png,*.pdf
+set wildignore+=*.git,*.swp,*.swo
+set wildignore+=.git,.hg,.svn " TODO: fugitive fails with Gdiff when enabled?
 
 " enable omni-complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 " enable omni-complete on filetypes without omni complete registered functions
-autocmd Filetype *
-            \   if &omnifunc == "" |
-            \       setlocal omnifunc=syntaxcomplete#Complete |
-            \   endif
+"autocmd Filetype *
+"            \   if &omnifunc == "" |
+"            \       setlocal omnifunc=syntaxcomplete#Complete |
+"            \   endif
 "Python is handled by python-mode. Alternative:
 " autocmd FileType python set omnifunc=pythoncomplete#Complete
 "C/C++ is handled by clang-complete. Alternative:
@@ -134,15 +214,15 @@ noremap <C-T> :tabnew<cr>
 " Move between tabs
 noremap <silent> <Leader>n <Esc>:tabprevious<CR>
 noremap <silent> <Leader>m <Esc>:tabnext<CR>
-noremap <silent> <C-Up> <Esc>:tabprevious<CR>
-noremap <silent> <C-Down> <Esc>:tabnext<CR>
+noremap <silent> <C-Right> <Esc>:tabprevious<CR>
+noremap <silent> <C-Left> <Esc>:tabnext<CR>
 " Move between windows
 noremap <silent> <c-j> <c-w>j
 noremap <silent> <c-k> <c-w>k
 noremap <silent> <c-l> <c-w>l
 noremap <silent> <c-h> <c-w>h
-noremap <silent> <c-right> <c-w><c-w>
-noremap <silent> <c-left> <c-w><s-w>
+noremap <silent> <c-Up> <c-w><c-w>
+noremap <silent> <c-Down> <c-w><s-w>
 " Resize windows
 noremap <silent> + <c-w>+
 noremap <silent> _ <c-w>-
@@ -154,7 +234,7 @@ noremap <silent> > <c-w>>
 " Quick save
 noremap <silent> <leader>s <Esc>:update<CR>
 " Quick quit
-noremap <silent> <leader>q <Esc>:quit<CR>
+"noremap <silent> <leader>q <Esc>:quit<CR>
 " Spell-checking toggle
 map <leader>sp :setlocal spell!<cr>
 " Disable highlight with <leader><cr>
@@ -184,14 +264,6 @@ map <leader>gd :Gdiff<cr>
 " Disable formatting when pasting (usually large chunks of code)
 set pastetoggle=<F2>
 
-
-" Extra Features
-" ==============
-
-" Autocomplete parenthesis
-inoremap {<CR> {<CR>}<Esc>O
-inoremap (<CR> (<CR>)<Esc>O
-inoremap [<CR> [<CR>]<Esc>O
 
 
 " Workarounds
@@ -235,19 +307,52 @@ endif
 
 " python
 " ======
-map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+"map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
 
-" vim-powerline
-" =============
+" lightline
+" =========
 set laststatus=2 " always show the statusline
-let g:Powerline_symbols = 'unicode'
+set timeoutlen=250 " timeout for mapped key
+set noshowmode " don't show '-- INSERT --' too
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+
+" syntastic
+" =========
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_compiler_options = ' -std=c++11'
+let g:syntastic_mode_map = {
+    \ 'mode': 'passive',
+    \ 'active_filetypes':
+        \ ['c', 'cpp', 'perl', 'python', 'sh'] }
+
+" YouCompleteMe
+" =============
+let g:ycm_always_populate_location_list = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+
+" ListToggle
+" ==========
+let g:lt_location_list_toggle_map = '<leader>l'
+let g:lt_quickfix_list_toggle_map = '<leader>q'
+let g:lt_height = 10
 
 " ctrlp
 " =====
-let g:ctrlp_max_height = 30
+let g:ctrlp_reuse_window = 'startify'
+let g:ctrlp_clear_cache_on_exit = 0 " don't recalc after restart
 let g:ctrlp_show_hidden = 1 " also look for hidden files
 let g:ctrlp_open_new_file = 'v' " <C-y> to open in a vertical split
-let g:ctrlp_map = '<c-f>' " <c-p> is reserved for YankRink
+"let g:ctrlp_map = '<c-f>' " <c-p> is reserved for YankRink
 
 " NERDTree
 " ========
@@ -271,7 +376,7 @@ let g:clang_snippets=1 " do some snippets magic after a ( or a , inside function
 let g:clang_snippets_engine="clang_complete" " The snippets engine (clang_complete, snipmate, ultisnips... see the snippets subdirectory).
 let g:clang_conceal_snippets=1 " clang_complete will use vim 7.3 conceal feature to hide <# and #> which delimit snippet placeholders.
 let g:clang_close_preview=1 " the preview window will be close automatically after a completion.
-let g:clang_exec="clang" " Name or path of clang executable.
+let g:clang_exec="/usr/bin/clang++" " Name or path of clang executable.
 let g:clang_user_options="" " Add this value at the end of the clang command
 let g:clang_auto_user_options="path, .clang_complete" " use path for include dirs, use .clang_complete for extra settings
 let g:clang_use_library=1 " Use libclang directly
@@ -291,8 +396,8 @@ nmap <S-F8> :TagbarToggle<cr>
 
 " YankRink
 " ========
-map <F3> :YRShow<cr>
-imap <F3> <C-O>:YRShow<cr>
+"map <F3> :YRShow<cr>
+"imap <F3> <C-O>:YRShow<cr>
 
 " ======================================================================
 " below: stuff that need to be arranged/checked/deleted
