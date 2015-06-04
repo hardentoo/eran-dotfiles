@@ -23,6 +23,7 @@ Plugin 'vim-scripts/wombat256.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'rainux/vim-desert-warm-256'
 Plugin 'nanotech/jellybeans.vim'
+Plugin 'tomasr/molokai'
 
 " Filesystem
 Plugin 'scrooloose/nerdtree' " filesystem explore (F12)
@@ -30,7 +31,7 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'kien/ctrlp.vim' " file/buffer fuzzy finder (Ctrl+F)
 
 " Utilities
-"Plugin 'Townk/vim-autoclose' " autocomplete open-close pairs, e.g: () {} <> []
+Plugin 'Townk/vim-autoclose' " autocomplete open-close pairs, e.g: () {} <> []
 "Plugin 'vim-scripts/YankRing.vim' " access to yanked buffer (F3)
 Plugin 'ervandew/supertab' " <Tab> everything!
 "Plugin 'mhinz/vim-startify' " a start screen for vim!
@@ -51,14 +52,14 @@ Plugin 'scrooloose/syntastic' " syntax checker
 Plugin 'majutsushi/tagbar' " tags window tree (F8) (definitions/function/etc.)
 Plugin 'Valloric/YouCompleteMe' " code completion engine for C-family/Python/etc.
                                 " https://github.com/Valloric/YouCompleteMe#installation
+Plugin 'rdnetto/YCM-Generator' " :YcmGenerateConfig to generate a config in current folder
 Plugin 'Valloric/ListToggle' " easily toggle the quickfix and location-list
-"Plugin 'Rip-Rip/clang_complete'
+Plugin 'scrooloose/nerdcommenter' " <,c> toggle comments
 
+"Plugin 'Rip-Rip/clang_complete'
 "Plugin 'nvie/vim-flake8'
 "Plugin 'davidhalter/jedi-vim'
-
-" check:
-" Plugin 'ervandew/supertab'
+"Plugin 'ervandew/supertab'
 
 call vundle#end()
 
@@ -105,8 +106,15 @@ if has("gui_running")
     set guioptions-=m " remove menubar
     set guioptions-=T " remove toolbar
     set guioptions-=r " remove right scrollbar
-    set lines=50
-    set columns=100
+    set lines=55
+    set columns=125
+    winpos 450 150 " center the window in my screen
+    " first, try the Meslo font
+    silent! set guifont=Meslo\ LG\ S\ 9
+    if &guifont != 'Meslo LG S 9'
+        " if not found, fallback to Monospace
+        set guifont=Monospace\ 9
+    endif
 endif
 
 " highlight group for wrong whitespace, must appear before the colorscheme
@@ -114,14 +122,19 @@ autocmd ColorScheme * highlight BadWhitespace ctermbg=red guibg=red
 
 " color scheme
 set t_Co=256
-colorscheme wombat256mod
+colorscheme molokai
+let g:molokai_original=1 " original background, disable for darker
+let g:rehash256=1 " better colors for 256-color terminals
+
+"wombat256mod
 "colorscheme jellybeans
 "set background=dark
 syntax on
 
-" color column margin
+" column margin line & cursor line
 set colorcolumn=101
-highlight ColorColumn ctermbg=235
+"highlight ColorColumn ctermbg=gray guibg=gray
+set cursorline
 
 " show line numbers
 set number
@@ -160,6 +173,7 @@ set ttyfast " improve redrawing smoothness
 set showcmd " show the keys being entered in the status line
 set tildeop " The tilde command ~ behaves like an operator
 set shortmess+=I " disable the startup message of VIM
+set hidden " open another file while current is yet saved (i.e, hide-don't-close)
 
 " tags
 set tags+=./tags
@@ -190,15 +204,19 @@ set wildignore+=*.jpg,*.jpeg,*.png,*.pdf
 set wildignore+=*.git,*.swp,*.swo
 set wildignore+=.git,.hg,.svn " TODO: fugitive fails with Gdiff when enabled?
 
+" sudo fix: force sudo write with w!!
+cmap w!! w !sudo tee % >/dev/null
+
 " enable omni-complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 " enable omni-complete on filetypes without omni complete registered functions
-"autocmd Filetype *
-"            \   if &omnifunc == "" |
-"            \       setlocal omnifunc=syntaxcomplete#Complete |
-"            \   endif
+autocmd Filetype *
+            \   if &omnifunc == "" |
+            \       setlocal omnifunc=syntaxcomplete#Complete |
+            \   endif
+
 "Python is handled by python-mode. Alternative:
 " autocmd FileType python set omnifunc=pythoncomplete#Complete
 "C/C++ is handled by clang-complete. Alternative:
@@ -231,14 +249,23 @@ noremap <silent> > <c-w>>
 
 " Mappings - various shortcuts
 " ============================
+" faster command entering -now save/close/etc. will be faster
+nnoremap ; :
+
+" force myself to get used to h/j/k/l
+"map <up> <nop>
+"map <down> <nop>
+"map <left> <nop>
+"map <right> <nop>
+
 " Quick save
-noremap <silent> <leader>s <Esc>:update<CR>
+"noremap <silent> <leader>s <Esc>:update<CR>
 " Quick quit
 "noremap <silent> <leader>q <Esc>:quit<CR>
 " Spell-checking toggle
 map <leader>sp :setlocal spell!<cr>
 " Disable highlight with <leader><cr>
-map <silent> <leader><cr> :noh<cr>
+map <silent> <leader><cr> :nohlsearch<cr>
 " CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 " Indentation of selected text
@@ -270,18 +297,18 @@ set pastetoggle=<F2>
 " ===========
 
 " Can also use CTRL+j/k to move inside omnicomplete
-function! OmniPopup(action)
-    if pumvisible()
-        if a:action == 'j'
-            return "\<C-N>"
-        elseif a:action == 'k'
-            return "\<C-P>"
-        endif
-    endi    f
-    return a:action
-endfunction
-inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
-inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
+"function! OmniPopup(action)
+"    if pumvisible()
+"        if a:action == 'j'
+"            return "\<C-N>"
+"        elseif a:action == 'k'
+"            return "\<C-P>"
+"        endif
+"    endi    f
+"    return a:action
+"endfunction
+"inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
+"inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 
 " Automatically close the preview window of omnicomplete - disabled
 " (preview does not behave nicely)
@@ -312,7 +339,6 @@ endif
 " lightline
 " =========
 set laststatus=2 " always show the statusline
-set timeoutlen=250 " timeout for mapped key
 set noshowmode " don't show '-- INSERT --' too
 let g:lightline = {
       \ 'colorscheme': 'wombat',
@@ -336,6 +362,9 @@ let g:syntastic_mode_map = {
 
 " YouCompleteMe
 " =============
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
+let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
@@ -352,7 +381,9 @@ let g:ctrlp_reuse_window = 'startify'
 let g:ctrlp_clear_cache_on_exit = 0 " don't recalc after restart
 let g:ctrlp_show_hidden = 1 " also look for hidden files
 let g:ctrlp_open_new_file = 'v' " <C-y> to open in a vertical split
-"let g:ctrlp_map = '<c-f>' " <c-p> is reserved for YankRink
+let g:ctrlp_map = '<c-p>' " <c-p> is reserved for YankRink
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_working_path_mode = 'rw'
 
 " NERDTree
 " ========
@@ -393,6 +424,10 @@ let g:tagbar_autoshowtag=1 " unfold as needed to show a tag
 nmap <F8> :TagbarOpenAutoClose<cr>
 " Open/Close the tagbar window (but leave it open when jumped from)
 nmap <S-F8> :TagbarToggle<cr>
+
+" autoclose
+" =========
+let g:AutoClosePreserveDotReg=0 " fix a bug (movement keys in insert mode write random text)
 
 " YankRink
 " ========
