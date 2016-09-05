@@ -47,6 +47,10 @@ Plugin 'airblade/vim-gitgutter' " show git diff signs in the gutter column
 "Plugin 'bling/vim-airline'
 Plugin 'itchyny/lightline.vim' " A light and configurable statusline/tabline
 
+" Markdown
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+
 " Code
 Plugin 'scrooloose/syntastic' " syntax checker
 Plugin 'majutsushi/tagbar' " tags window tree (F8) (definitions/function/etc.)
@@ -91,9 +95,9 @@ autocmd BufWritePre * let &backupext = '-' . strftime("(%Y-%m-%d)-{%H:%M}") . '~
 set autoindent
 
 " configure tab handling (spaces instead of tabs, etc.)
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set shiftround
 set expandtab " Use spaces instead of tabs
 set smarttab " smarter tabs
@@ -149,8 +153,8 @@ set t_vb=
 set tm=500
 
 " history/undo settings
-set history=1000
-set undolevels=1000
+set history=2000
+set undolevels=2000
 
 " general settings
 let mapleader="," " set <leader> to ,
@@ -160,7 +164,7 @@ set autoread " reload file when changes happen in other editors
 set mouse=a " enable mouse support
 set bs=indent,eol,start " make backspace behave like normal again
 set lazyredraw " do not refresh screen while executing macros
-set scrolloff=4 " always show 4 lines at the edge when moving the cursor
+set scrolloff=5 " always show 4 lines at the edge when moving the cursor
 set sidescrolloff=7 " always show 7 columns at the edge when moving the cursor
 set sidescroll=1 " for fast terminals
 set magic " for regular expressions
@@ -194,6 +198,9 @@ set formatoptions+=j " when joining lines, smartly join their comments leader
 
 " highlight bad whitespace matching rules (when leaving insert mode)
 autocmd InsertLeave * match BadWhitespace /\t\|\s\+$/
+
+" vim-markdown
+let g:vim_markdown_math = 1
 
 " ignore these files in the wildmenu
 set wildignore+=*_build/*
@@ -232,8 +239,8 @@ noremap <C-T> :tabnew<cr>
 " Move between tabs
 noremap <silent> <Leader>n <Esc>:tabprevious<CR>
 noremap <silent> <Leader>m <Esc>:tabnext<CR>
-noremap <silent> <C-Right> <Esc>:tabprevious<CR>
-noremap <silent> <C-Left> <Esc>:tabnext<CR>
+noremap <silent> <C-Left> <Esc>:tabprevious<CR>
+noremap <silent> <C-Right> <Esc>:tabnext<CR>
 " Move between windows
 noremap <silent> <c-j> <c-w>j
 noremap <silent> <c-k> <c-w>k
