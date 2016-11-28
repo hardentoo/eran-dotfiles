@@ -24,6 +24,7 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'rainux/vim-desert-warm-256'
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'tomasr/molokai'
+Plugin 'jacoborus/tender'
 
 " Filesystem
 Plugin 'scrooloose/nerdtree' " filesystem explore (F12)
@@ -33,7 +34,7 @@ Plugin 'kien/ctrlp.vim' " file/buffer fuzzy finder (Ctrl+F)
 " Utilities
 Plugin 'Townk/vim-autoclose' " autocomplete open-close pairs, e.g: () {} <> []
 "Plugin 'vim-scripts/YankRing.vim' " access to yanked buffer (F3)
-Plugin 'ervandew/supertab' " <Tab> everything!
+"Plugin 'ervandew/supertab' " <Tab> everything! (YCM handles tabs?)
 "Plugin 'mhinz/vim-startify' " a start screen for vim!
 Plugin 'Lokaltog/vim-easymotion' " Quickly jump to another place (,,w)
 Plugin 'jeetsukumaran/vim-buffergator' " list & navigate buffers (,b)
@@ -59,6 +60,7 @@ Plugin 'Valloric/YouCompleteMe' " code completion engine for C-family/Python/etc
 Plugin 'rdnetto/YCM-Generator' " :YcmGenerateConfig to generate a config in current folder
 Plugin 'Valloric/ListToggle' " easily toggle the quickfix and location-list
 Plugin 'scrooloose/nerdcommenter' " <,c> toggle comments
+Plugin 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
 
 "Plugin 'Rip-Rip/clang_complete'
 "Plugin 'nvie/vim-flake8'
@@ -125,6 +127,7 @@ endif
 autocmd ColorScheme * highlight BadWhitespace ctermbg=red guibg=red
 
 " color scheme
+"set guicolors
 set t_Co=256
 colorscheme molokai
 let g:molokai_original=1 " original background, disable for darker
@@ -201,6 +204,7 @@ autocmd InsertLeave * match BadWhitespace /\t\|\s\+$/
 
 " vim-markdown
 let g:vim_markdown_math = 1
+let g:vim_markdown_folding_disabled = 1
 
 " ignore these files in the wildmenu
 set wildignore+=*_build/*
@@ -361,11 +365,11 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_compiler_options = ' -std=c++11'
+let g:syntastic_cpp_compiler_options = ' -std=c++1z'
 let g:syntastic_mode_map = {
     \ 'mode': 'passive',
     \ 'active_filetypes':
-        \ ['c', 'cpp', 'perl', 'python', 'sh'] }
+        \ ['c', 'cpp', 'python', 'sh'] }
 
 " YouCompleteMe
 " =============
